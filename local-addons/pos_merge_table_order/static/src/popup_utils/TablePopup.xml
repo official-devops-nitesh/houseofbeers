@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_merge_table_order.TablePopup">
+        <div class="popup popup-merge">
+            <div class="modal-header">
+                <h4 class="modal-title"><t t-esc="props.title" /></h4>
+            </div>
+
+            <div class="modal-body" style="max-width: 500px; height: 500px; overflow-y: scroll;">
+                <div class="row">
+                    <t t-foreach="tablesWithOrders.tables" t-as="table" t-key="table.id">
+                        <div class="col-4 p-2">
+                            <div class="d-flex align-items-center justify-content-center" 
+                                data-click="0"
+                                t-att-data-table_id="table.id"
+                                t-on-click="onTableClick"
+                                style="height: 64px !important; padding: 10px; border:1px solid green; border-radius: 10px;">
+                                <t t-out="table.name"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <footer class="footer footer-flex modal-footer">
+                <div class="button confirm highlight btn btn-lg btn-primary" t-on-click="mergeTable">
+                    <t t-esc="props.confirmText" />
+                </div>
+                <div class="button cancel btn btn-lg btn-secondary" t-on-click="cancel">
+                    <t t-esc="props.cancelText" />
+                </div>
+            </footer>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<templates id="template" xml:space="preserve">
+    <t t-name="TimeManagementPopup">
+        <div class="popup popup-confirm">
+            <div class="modal-header">
+                <h4 class="modal-title title drag-handle">
+                    <t t-esc=" props.title || 'Message' " />
+                </h4>
+            </div>
+            <main class="modal-body">
+                <t t-esc="  props.body || '' " />
+            </main>
+            <footer class="footer modal-footer">
+
+                <div class="button cancel btn btn-lg btn-primary" t-on-click="cancel">ok</div>
+            </footer>
+        </div>
+    </t>
+
+    <t t-name="wkPackagePopup" owl="1">
+
+        <div class="popup popup-textinput">
+            <div class="modal-header p-2">
+                <h4 class="modal-title m-auto fs-2">
+                    Product Packages<t t-if="props and props.product">(                    <t t-esc="props.product.display_name" />
+ )</t>
+            </h4>
+        </div>
+
+        <div style="height:200px !important;overflow-y: scroll;">
+            <div class="wk_popup_body">
+                <t t-if="props and props.product">
+                    <div class='wk_product_package per_unit_product' t-on-click="wk_product_package">
+                        <div class="wk-price-tag">
+                            <t t-esc=" env.utils.formatCurrency(props.product.get_price(env.services.pos.get_order().pricelist, 1),'Product Price') + '/' + env.services.pos.units_by_id[props.product.uom_id[0]].name" />
+                        </div>
+                        <div class="product-package-name">
+                            <t t-esc="props.product.display_name + '/'+env.services.pos.units_by_id[props.product.uom_id[0]].name" />
+                        </div>
+                    </div>
+                    <t t-foreach="props.product.packaging_ids" t-as="package_id" t-key="package_id">
+                        <t t-set="wk_package" t-value="env.services.pos.db.package_by_id[package_id]" />
+                        <div class='wk_product_package' t-on-click="wk_product_package" t-att-id="package_id">
+                            <div class="wk-price-tag">
+                                <t t-esc="env.utils.formatCurrency(get_package_unit_price(props.product,wk_package, 1)) + '/' + env.services.pos.units_by_id[props.product.uom_id[0]].name" />
+                            </div>
+                            <div class="product-package-name">
+                                <t t-esc="wk_package.name" />
+                            </div>
+                            <div class="product_pack">Package</div>
+                            <div class="qty_package">
+                                <div>
+											Quantity :
+                                    <t t-esc="wk_package.qty" />
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </div>
+        <div class="product_package_qty fs-2" style="visibility : hidden">
+					Quantity :
+            <input class="wk_package_order_qty" type="number" value="1"></input>
+        </div>
+        <div class="product_total_price fs-2" style="visibility : hidden">
+					Price :
+            <div class="total_value"></div>
+        </div>
+         <footer class="footer modal-footer justify-content-end">
+                <div class="button  btn btn-lg btn-primary" t-on-click="apply_package">Add</div>
+                 <div class="button cancel btn btn-lg btn-primary" t-on-click="cancel">cancel</div>
+            </footer>
+      
+    </div>
+
+</t>
+</templates>

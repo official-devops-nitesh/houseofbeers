@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="pdr_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">pdr.res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="50"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='has_accounting_entries']" position="after">
+
+                    <h2>Partner Detailed Reports Accounts</h2>
+                  <div class="row mt16 o_settings_container">
+                         
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Accounts</span>
+                                <div class="text-muted">
+                                        Set default Partner Detailed Reports Accounts for sale and purchase order.
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16" >
+                                        <label for="rep_account_ids"
+                                               class="col-md-3 o_light_label"/>
+                                        <field name="rep_account_ids" widget="many2many_tags" domain="[('company_id', '=', company_id)]"/>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+    <function model="res.config.settings" name="enable_lot_settings"/>
+
+    <record id="pos_category_Packages" model="pos.category">
+        <field name="name">Packages</field>
+    </record>
+    <record model="pos.config" id="point_of_sale.pos_config_main">
+        <field name="limit_categories">False</field>
+        <field name="iface_available_categ_ids" eval="[(5, 0)]"/>
+    </record>
+    <record model="pos.config" id="point_of_sale.pos_config_main">
+        <field name="iface_start_categ_id" ref="pos_category_Packages"></field>
+        <field name="start_category">True</field>
+        <field name="limit_categories">True</field>
+        <field name="iface_available_categ_ids" eval="[(6, 0, [ref('point_of_sale.pos_category_miscellaneous'), ref('point_of_sale.pos_category_desks'), ref('point_of_sale.pos_category_chairs'), ref('pos_category_Packages')])]" />
+    </record>
+
+
+    <record model="product.product" id="point_of_sale.whiteboard_pen">
+        <field name="available_in_pos">True</field>
+        <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_Packages')])]"/>
+    </record>
+    <record model="product.product" id="point_of_sale.desk_pad">
+        <field name="available_in_pos">True</field>
+        <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_Packages')])]"/>
+    </record>
+
+    <record model="product.product" id="point_of_sale.led_lamp">
+        <field name="available_in_pos">True</field>
+        <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_Packages')])]"/>
+    </record>
+
+    <record model="product.product" id="point_of_sale.letter_tray">
+        <field name="available_in_pos">True</field>
+        <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_Packages')])]"/>
+    </record>
+
+    <record model="product.product" id="point_of_sale.wall_shelf">
+        <field name="available_in_pos">True</field>
+        <field name="pos_categ_ids" eval="[(6, 0, [ref('pos_category_Packages')])]"/>
+    </record>
+
+
+
+    <record model="product.packaging" id="demo_product_packaging_1">
+        <field name="product_id" ref="point_of_sale.whiteboard_pen"></field>
+        <field name="name">Dozen</field>
+        <field name="qty">12</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_2">
+        <field name="product_id" ref="point_of_sale.whiteboard_pen"></field>
+        <field name="name">Gross</field>
+        <field name="qty">144</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_3">
+        <field name="product_id" ref="point_of_sale.desk_pad"></field>
+        <field name="name">Dozen</field>
+        <field name="qty">12</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_4">
+        <field name="product_id" ref="point_of_sale.desk_pad"></field>
+        <field name="name">Gross</field>
+        <field name="qty">144</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_5">
+        <field name="product_id" ref="point_of_sale.led_lamp"></field>
+        <field name="name">Dozen</field>
+        <field name="qty">12</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_6">
+        <field name="product_id" ref="point_of_sale.led_lamp"></field>
+        <field name="name">Gross</field>
+        <field name="qty">144</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_7">
+        <field name="product_id" ref="point_of_sale.letter_tray"></field>
+        <field name="name">Dozen</field>
+        <field name="qty">12</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_8">
+        <field name="product_id" ref="point_of_sale.letter_tray"></field>
+        <field name="name">Gross</field>
+        <field name="qty">144</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_9">
+        <field name="product_id" ref="point_of_sale.wall_shelf"></field>
+        <field name="name">Dozen</field>
+        <field name="qty">12</field>
+    </record>
+    <record model="product.packaging" id="demo_product_packaging_10">
+        <field name="product_id" ref="point_of_sale.wall_shelf"></field>
+        <field name="name">Gross</field>
+        <field name="qty">144</field>
+    </record>
+    <!-- <record id="list0" model="product.pricelist">
+        <field name="name">Public Pricelist</field>
+        <field name="sequence">1</field>
+    </record> -->
+    
+    <record model="product.pricelist.item" id="demo_package_pricelist_1"> 
+        <field name="name">Whiteboard Pen[Dozen]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.whiteboard_pen"></field>
+        <field name="package_id" ref="demo_product_packaging_1"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">10</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_2"> 
+        <field name="name">Whiteboard Pen[Gross]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.whiteboard_pen"></field>
+        <field name="package_id" ref="demo_product_packaging_2"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_3"> 
+        <field name="name">Desk Pad[Dozen]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.desk_pad"></field>
+        <field name="package_id" ref="demo_product_packaging_3"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">10</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_4"> 
+        <field name="name">Desk Pad[Gross]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.desk_pad"></field>
+        <field name="package_id" ref="demo_product_packaging_4"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_5"> 
+        <field name="name">LED Lamp[Dozen]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.led_lamp"></field>
+        <field name="package_id" ref="demo_product_packaging_5"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">10</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_6"> 
+        <field name="name">LED Lamp[Gross]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.led_lamp"></field>
+        <field name="package_id" ref="demo_product_packaging_6"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_7"> 
+        <field name="name">Letter Tray[Dozen]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.letter_tray"></field>
+        <field name="package_id" ref="demo_product_packaging_7"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">10</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_8"> 
+        <field name="name">Letter Tray[Gross]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.letter_tray"></field>
+        <field name="package_id" ref="demo_product_packaging_8"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_9"> 
+        <field name="name">Wall Shelf Unit[Dozen]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.wall_shelf"></field>
+        <field name="package_id" ref="demo_product_packaging_9"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">10</field>
+    </record>
+    <record model="product.pricelist.item" id="demo_package_pricelist_10">
+        <field name="name">Wall Shelf Unit[Gross]</field>
+        <field name="applied_on">3_product_package</field>
+        <field name="product_package_id" ref="point_of_sale.wall_shelf"></field>
+        <field name="package_id" ref="demo_product_packaging_10"></field>
+        <field name="compute_price">percentage</field>
+        <field name="percent_price">20</field>
+    </record>
+</odoo>

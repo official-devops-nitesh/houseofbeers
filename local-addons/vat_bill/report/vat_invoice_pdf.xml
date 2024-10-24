@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="account.account_invoice_vat"
+                model="account.move"
+                string="VAT Invoice"
+                report_type="qweb-pdf"
+                name="vat_bill.report_invoice_vat"
+                file="vat_bill.report_invoice_vat"
+        />
+
+        <!-- <record id="vat_paperformat_payslip_sale" model="report.paperformat">
+                 <field name="name">US Letter</field>
+                 <field name="default" eval="True" />
+                 <field name="format">custom</field>
+                 <field name="page_height">297</field>
+                 <field name="page_width">210</field>
+                 <field name="orientation">Portrait</field>
+                 <field name="margin_top">40</field>
+                 <field name="margin_bottom">32</field>
+                 <field name="margin_left">7</field>
+                 <field name="margin_right">7</field>
+                 <field name="header_line" eval="False" />
+                 <field name="header_spacing">32</field>
+                 <field name="dpi">125</field>
+     </record>
+
+
+    <record id="vat_bill" model="ir.actions.report">
+         <field name="paperformat_id" ref="vat_bill.vat_paperformat_payslip_sale" />
+     </record> -->
+
+        <!-- <template id="external_layout_invoice">
+           <t t-if="o and 'company_id' in o">
+               <t t-set="company" t-value="o.company_id"></t>
+           </t>
+           <t t-if="not o or not 'company_id' in o">
+               <t t-set="company" t-value="res_company"></t>
+           </t>
+          <t t-if="not o and doc">
+             <t t-set="o" t-value="doc"/>
+         </t>
+         <t t-if="o and 'company_id' in o">
+             <t t-set="company" t-value="o.company_id.sudo()"/>
+         </t>
+         <t t-if="not o or not 'company_id' in o">
+             <t t-set="company" t-value="res_company"/>
+         </t>
+
+      <t t-if="company.external_report_layout == 'background'">
+           <t t-call="vat_bill.external_layout_inv_header" /><t t-raw="0"/>
+       </t>
+       <t t-if="company.external_report_layout == 'boxed'">
+           <t t-call="vat_bill.external_layout_inv_header" /><t t-raw="0"/>
+       </t>
+       <t t-if="company.external_report_layout == 'clean'">
+           <t t-call="vat_bill.external_layout_inv_header" /><t t-raw="0"/>
+       </t>
+       <t t-if="company.external_report_layout in (False, 'standard')">
+           <t t-call="vat_bill.external_layout_inv_header" /><t t-raw="0"/>
+       </t>
+       <t t-call="vat_bill.external_layout_inv_header" />
+           <t t-raw="0" />
+       </template> -->
+
+
+    </data>
+</odoo>

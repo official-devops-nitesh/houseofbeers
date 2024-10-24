@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<templates id="template" xml:space="preserve">
+	<!-- <t t-name="OrderLinesReceipt" t-inherit="point_of_sale.OrderLinesReceipt" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[@id='receipt-orderline']/span" position="inside">
+			<t t-if="line.package_id">
+				<t t-esc="line.input_quantity + ' ' +env.services.pos.db.package_by_id[line.package_id].name" />
+			</t>
+		</xpath>
+	</t> -->
+	<t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" >
+		<xpath expr="//ul[hasclass('info-list')]//li[1]" position="inside">
+			<t t-if='props.line.order_line.package_id and props.line.order_line.packageStr !== "0"'>
+				<li class="package_info fs-4">
+					<i t-if="props.line.order_line.order.screen_data and props.line.order_line.order.screen_data.value and props.line.order_line.order.screen_data.value.name =='ProductScreen'" class="fa fa-info-circle me-1" t-on-click="() => this.clikorderlinebtn(props.line.order_line)" aria-hidden="true" />
+					<t t-esc="props.line.order_line.input_quantity" /> x
+					<em>
+						<t t-esc="props.line.order_line.packageStr" />
+					</em>
+					at
+					<em>
+						<t t-esc="env.utils.formatCurrency(props.line.order_line.get_per_package_price())" />
+					</em>
+					/
+					<em>
+						<t t-esc="props.line.order_line.packageStr" />
+					</em>
+				</li>
+			</t>
+		</xpath>
+	</t>
+
+</templates>

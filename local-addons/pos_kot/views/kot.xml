@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>    
+        <record id="pos_kot_report_view_tree" model="ir.ui.view">
+            <field name="name">pos_kot_report.view.tree</field>
+            <field name="model">pos_preparation_display.order</field>
+            <field name="arch" type="xml">
+                <tree default_order='create_date desc'>
+                    <field name="pos_order_id" />
+                    <field name="pos_order_session" />
+                    <field name="pos_order_table" />
+                    <field name="pos_order_customer" />
+                    <field name="pos_order_waiter" />
+                    <field name="create_date" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_kot_report_view_form" model="ir.ui.view">
+            <field name="name">pos_kot_report.view.form</field>
+            <field name="model">pos_preparation_display.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet readonly="1">
+                        <group>
+                            <field name="pos_order_id"  readonly="1"/>
+                            <field name="pos_order_session" />
+                            <field name="pos_order_table" />
+                            <field name="pos_order_customer" />
+                            <field name="pos_order_waiter" />
+                            <field name="create_date" />
+                        </group>
+                        <notebook>
+                            <page name="order_line" string="Order Line">
+                                <field name="preparation_display_order_line_ids">
+                                    <tree string="Point of Sale preparation order line">
+                                        <field name="product_id" optional="show"/>
+                                        <field name="product_quantity" optional="show"/>
+                                        <field name="product_cancelled" optional="show"/>
+                                        <field name="internal_note" optional="show"/>
+                                        <field name="todo" optional="show"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_pos_kot_report" model="ir.actions.act_window">
+            <field name="name">KOT Report</field>
+            <field name="res_model">pos_preparation_display.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="pos_kot_report_view_tree"/>
+        </record>   
+
+        <menuitem
+            id="pos_kot_report_menu"
+            name="KOT"
+            action="action_pos_kot_report"
+            parent="point_of_sale.menu_point_rep"
+            sequence="10"/>
+    </data>
+</odoo>

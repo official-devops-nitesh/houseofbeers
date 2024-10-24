@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_layout_pos_receipt_ird">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+            <div class="article" style="margin:0px;padding:0px;">
+                <t t-out="0" />
+            </div>
+    </template>
+
+    <template id="report_pos_receipt_ird">
+
+        <t t-name="pos_receipt_ird.report_pos_receipt_ird">
+            <t t-call="pos_receipt_ird.report_layout_pos_receipt_ird">
+                <style>
+                    tr{
+                    height:30px;
+                    }
+
+                    .page{
+                    line-height:22px;
+                    font-size:;
+                    }
+                    table{
+                        border:1px solid transparent;
+                    }
+                </style>
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <t t-if="o.move_type == 'out_refund'">
+                    <div class="page">
+                        <div>
+                            <div class="text-center" style="text-align:center;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 2.1cm; max-width: 4cm;"/>
+                                <br/>
+                                <div><strong>
+                                    The House of Beer Pvt. Ltd.<br/>
+                                    VAT: 610467044<br/>
+                                </strong> 
+                                </div>
+                                <br/>
+                                <div>
+                                    <div class="text-center">
+                                        <b>Credit Note</b>
+                                    </div>
+                                    <br/>
+                                    <div style="text-align:left;">
+                                    <t t-if="o.move_type == 'out_refund'">
+                                            <b>Invoice</b>: <t t-esc="o.name"/><br/>
+                                            <t t-esc="o.ref"/><br/>
+                                            <b>Date:</b> <t t-esc="o.invoice_date"/><br/>
+                                            <b>C.Name</b>: <t t-esc="o.partner_id.name"/><br/>
+                                            <b>C.PAN</b>: <t t-esc="o.partner_id.vat"/><br/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    <table class="" style="border: 0px solid transparent; width:100%; text-align:center;">
+                        <thead>
+                            <td>SN</td>
+                            <td>PARTICULAR</td>
+                            <td>QTY</td>
+                            <td>RATE</td>
+                            <td>AMOUNT</td>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.invoice_line_ids" t-as="l">
+                                <tr>
+                                    <td><span t-esc="str(l_index+1) + '.'"/></td>
+                                    <td><span style="text-align:left;" class="" t-field="l.name"/></td>
+                                    <td><span t-field="l.quantity" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                    <td><span t-field="l.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                    <td><span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div id="total" class="row mt-4  mb-4">
+                        <div t-attf-class="'col-6' if report_type == 'pdf' else 'col-md-6 col-12'">
+                            <div><span>Amt After Discount: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                            </span></div>
+                            <div><span>Taxable Amt: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                            </span></div>
+                            <div>
+                                <span>VAT(13%): </span>
+                                <span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                                </span>
+                            </div>
+                            <div>
+                                <span>Total Amt: </span>
+                                <span t-esc="o.amount_total">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <b>
+                            In Words: <p t-esc="o.amount_total_words"/>
+                        </b>
+                    </div>
+                    <div>
+                            Printed By: Administrator<br/>
+                            Printed Time: <t t-esc="o.get_printedtime()"/>
+                    </div>
+                </div>
+                </t>
+                <t t-if="o.copy_count == 0">
+                    <div class="page">
+                            <div>
+                                <div class="text-center" style="text-align:center;">
+                                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 2.1cm; max-width: 4cm;"/>
+                                    <br/>
+                                    <div><strong>
+                                        The House of Beer Pvt. Ltd.<br/>
+                                        VAT: 610467044<br/>
+                                    </strong> 
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <div class="text-center">
+                                            <b>Tax Invoice</b>
+                                        </div>
+                                        <br/>
+                                        <div style="text-align:left;">
+                                        <t t-if="o.move_type == 'out_invoice'">
+                                                <b>Invoice</b>: <t t-esc="o.name"/><br/>
+                                                <b>Date:</b> <t t-esc="o.invoice_date"/><br/>
+                                                <b>C.Name</b>: <t t-esc="o.partner_id.name"/><br/>
+                                                <b>C.PAN</b>: <t t-esc="o.partner_id.vat"/><br/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <table style="border: 0px solid transparent; width:100%;">
+                                <thead>
+                                    <td style="text-align:center;">SN</td>
+                                    <td style="width:40%;">PARTICULAR</td>
+                                    <td style="text-align:center;">QTY</td>
+                                    <td style="text-align:center;">RATE</td>
+                                    <td style="text-align:center;">AMOUNT</td>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.invoice_line_ids" t-as="l">
+                                        <tr>
+                                            <td style="text-align:center;"><span t-esc="str(l_index+1) + '.'"/></td>
+                                            <td style="width:40%;"><span style="text-align:left;" class="" t-field="l.name"/></td>
+                                            <td style="text-align:center;"><span t-field="l.quantity" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                            <td style="text-align:center;"><span t-field="l.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                            <td style="text-align:center;"><span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <br/>
+                        <div id="total" class="row">
+                            <div t-attf-class="'col-6' if report_type == 'pdf' else 'col-md-6 col-12'">
+                                <div><span>Amt After Discount: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                                </span></div>
+                                <div><span>Taxable Amt: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                                </span></div>
+                                <div>
+                                    <span>VAT(13%): </span>
+                                    <span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>Total Amt: </span>
+                                    <span t-esc="o.amount_total">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div>
+                            <b>
+                                In Words: <p t-esc="o.amount_total_words"/>
+                            </b>
+                        </div>
+                        <div>
+                                Printed By: Administrator<br/>
+                                Printed Time: <t t-esc="o.get_printedtime()"/>
+                        </div>
+                    </div>
+                    <p style="page-break-before:always;"/> 
+                    <div class="page">
+                        <div>
+                            <div class="text-center" style="text-align:center;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 2.1cm; max-width: 4cm;"/>
+                                <br/>
+                                <div> 
+                                    <strong>
+                                        The House of Beer Pvt. Ltd.<br/>
+                                        VAT: 610467044<br/>
+                                    </strong> 
+                                </div>
+                                <br/>
+                                <div>
+                                    <div class="text-center">
+                                        <b>Invoice</b>
+                                    </div>
+                                    <br/>
+                                    <div style="text-align:left;">
+                                    <t t-if="o.move_type == 'out_invoice'">
+                                            <b>Invoice</b>: <t t-esc="o.name"/><br/>
+                                            <b>Date:</b> <t t-esc="o.invoice_date"/><br/>
+                                            <b>C.Name</b>: <t t-esc="o.partner_id.name"/><br/>
+                                            <b>C.PAN</b>: <t t-esc="o.partner_id.vat"/><br/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <table style="border: 0px solid transparent; width:100%;">
+                            <thead>
+                                <td style="text-align:center;">SN</td>
+                                <td style="width:40%;">PARTICULAR</td>
+                                <td style="text-align:center;">QTY</td>
+                                <td style="text-align:center;">RATE</td>
+                                <td style="text-align:center;">AMOUNT</td>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.invoice_line_ids" t-as="l">
+                                    <tr>
+                                        <td style="text-align:center;"><span t-esc="str(l_index+1) + '.'"/></td>
+                                        <td style="width:40%;"><span style="text-align:left;" class="" t-field="l.name"/></td>
+                                        <td style="text-align:center;"><span t-field="l.quantity" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                        <td style="text-align:center;"><span t-field="l.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                        <td style="text-align:center;"><span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <br/>
+                    <div id="total" class="row">
+                        <div t-attf-class="'col-6' if report_type == 'pdf' else 'col-md-6 col-12'">
+                            <div><span>Amt After Discount: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                            </span></div>
+                            <div><span>Taxable Amt: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                            </span></div>
+                            <div>
+                                <span>VAT(13%): </span>
+                                <span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                                </span>
+                            </div>
+                            <div>
+                                <span>Total Amt</span>
+                                <span t-esc="o.amount_total">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <b>
+                            In Words: <p t-esc="o.amount_total_words"/>
+                        </b>
+                    </div>
+                    <div>
+                            Printed By: Administrator<br/>
+                            Printed Time: <t t-esc="o.get_printedtime()"/>
+                    </div>
+                </div>
+                </t>
+                <t t-if="o.copy_count != 0 and o.move_type!='out_refund'">
+                    <div class="page">
+                        <div>
+                            <div class="text-center" style="text-align:center;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 2.1cm; max-width: 4cm;"/>
+                                <br/>
+                                <div> 
+                                    <strong>
+                                        The House of Beer Pvt. Ltd.<br/>
+                                        VAT: 610467044<br/>
+                                    </strong> 
+                                </div>
+                                <br/>
+                                <div>
+                                    <div class="text-center">
+                                        <b>Invoice</b><br/>
+                                        Copy of Invoice - <t t-esc="o.copy_count"/>
+                                    </div>
+                                    <br/>
+                                    <div style="text-align:left;">
+                                    <t t-if="o.move_type == 'out_invoice'">
+                                            <b>Invoice</b>: <t t-esc="o.name"/><br/>
+                                            <b>Date:</b> <t t-esc="o.invoice_date"/><br/>
+                                            <b>C.Name</b>: <t t-esc="o.partner_id.name"/><br/>
+                                            <b>C.PAN</b>: <t t-esc="o.partner_id.vat"/><br/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    <table style="border: 0px solid transparent; width:100%;">
+                        <thead>
+                            <td style="text-align:center;">SN</td>
+                            <td style="width:40%;">PARTICULAR</td>
+                            <td style="text-align:center;">QTY</td>
+                            <td style="text-align:center;">RATE</td>
+                            <td style="text-align:center;">AMOUNT</td>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.invoice_line_ids" t-as="l">
+                                <tr>
+                                    <td style="text-align:center;"><span t-esc="str(l_index+1) + '.'"/></td>
+                                    <td style="width:40%;"><span style="text-align:left;" class="" t-field="l.name"/></td>
+                                    <td style="text-align:center;"><span t-field="l.quantity" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                    <td style="text-align:center;"><span t-field="l.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                    <td style="text-align:center;"><span t-field="l.price_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div id="total" class="row">
+                        <div t-attf-class="'col-6' if report_type == 'pdf' else 'col-md-6 col-12'">
+                            <div><span>Amt After Discount: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                            </span></div>
+                            <div><span>Taxable Amt: </span><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                            </span></div>
+                            <div>
+                                <span>VAT(13%): </span>
+                                <span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}">
+                                </span>
+                            </div>
+                            <div>
+                                <span>Total Amt: </span>
+                                <span t-esc="o.amount_total">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div>
+                        <b>
+                            In Words: <p t-esc="o.amount_total_words"/>
+                        </b>
+                    </div>
+                    <div>
+                            Printed By: Administrator<br/>
+                            Printed Time: <t t-esc="o.get_printedtime()"/>
+                    </div>
+                </div>
+                </t>
+                <t t-esc="o.increase_print()"/>
+            </t>
+    </t>
+    </template>
+
+    <template id="pos_receipt_ird_translate" t-name="POS Receipt IRD">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.user_id.lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                <t t-call="pos_receipt_ird.report_pos_receipt_ird" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="pos_receipt_ird" model="ir.actions.report">
+        <field name="name">POS Receipt</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pos_receipt_ird.pos_receipt_ird_translate</field>
+        <field name="report_file">pos_receipt_ird.pos_receipt_ird_translate</field>
+        <field name="print_report_name">object._get_pos_receipt_filename()</field>
+        <field name="binding_view_types">form</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+    </record>
+
+
+</odoo>

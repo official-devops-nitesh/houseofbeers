@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <report
+        id="partner_detailed_pdf_report"
+        model="partner.detailed.reporting"
+        string="Partner Detail PDF Report"
+        report_type="qweb-pdf"
+        name="partner_detail_report.partner_detail_report_template"
+        file="partner_detail_report.partner_detail_report_template"
+        attachment_use="True"
+    />
+
+     
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_merge_table_order.TableMergeButton">
+        <button class="control-button btn btn-light rounded-0 fw-bolder" t-on-click="() => this.click()">
+            <i class="fa fa-code-fork me-1" role="img" aria-label="Table Merge" title="Table Merge" />
+            Table Merge
+        </button>
+    </t>
+</templates>

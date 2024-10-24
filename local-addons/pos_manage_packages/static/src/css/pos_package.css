@@ -1,0 +1,123 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>)
+See LICENSE file for full copyright and licensing details.
+License URL : <https://store.webkul.com/license.html/> */
+.wk_product_package{    
+    vertical-align: top;
+    display: inline-block;
+    font-size: 11px;
+    margin: 8px !important;
+    width: 122px;
+    height: 115px;
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+.product_pack {
+    background: green;
+    position: absolute;
+    top: 69px;
+    right: 33px;
+    vertical-align: top;
+    color: white;
+    line-height: 13px;
+    padding: 2px 5px;
+    border-radius: 2px;
+    opacity: 0.5;
+}
+.selected{
+    background:#6EC89B
+}
+
+.qty_package{
+    text-align: center;
+    margin-top: 90px;
+}
+
+.product_package_qty{
+    text-align: left;
+    margin-top: 5px;
+    /* display: none; */
+    margin-left: 20px;
+}
+
+.product_total_price{
+    display: flex;
+    text-align: left;
+    margin-top: 5px;
+    /* display: none; */
+    margin-left: 20px;
+}
+
+.fa.fa-info-circle{
+    cursor: pointer;
+}
+
+.fa.fa-info-circle:hover{
+    color: #6ec89b;
+}
+
+.product-package-name {
+    position: absolute;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+            box-sizing: border-box;
+    line-height: 14px;
+    width:100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    top:25px;
+    padding: 3px;
+    padding-top:15px;
+}
+.wk_package_order_qty{
+    width: 35% !important;
+    border: 1px solid #cecbcb;
+    font-size: 16px;
+    color: green;
+  }
+
+.wk-price-tag {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    vertical-align: top;
+    color: white;
+    line-height: 13px;
+    background: #7f82ac;
+    padding: 2px 5px;
+    border-radius: 2px;
+}
+
+
+
+.text_shake {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    /* border-color:red */
+  }
+  
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+  

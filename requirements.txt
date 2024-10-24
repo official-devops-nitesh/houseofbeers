@@ -1,0 +1,2 @@
+nepali-datetime>=1.0.8.2,<1.1
+paramiko>=3.4.0,<3.5

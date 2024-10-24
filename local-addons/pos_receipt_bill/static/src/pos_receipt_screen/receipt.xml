@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceiptInherit" t-inherit="point_of_sale.OrderReceipt"
+        t-inherit-mode="extension" owl="1">
+    
+        <xpath expr="//ReceiptHeader" position="after">
+            <style>
+                tr{
+                    height:30px;
+                }
+
+                .page{
+                    line-height:22px;
+                    font-size:;
+                }
+                table{
+                    border:1px solid transparent;
+                }
+            </style>
+            <div>
+                <t t-if="invoiceDetail.invoceNumber">
+                    <div class="text-center">
+                        <strong>Tax Invoice</strong>
+                    </div>  
+                    <strong>Invoice : </strong><span t-out="invoiceDetail.invoceNumber"></span><br/>
+                    <strong>Date: </strong><span t-out="invoiceDetail.invoice_date"></span><br/>
+                    <strong>C.Name: </strong><span t-out="invoiceDetail.customer"></span><br/>
+                    <strong>C.PAN: </strong><span t-out="invoiceDetail.pan"></span><br/>
+                    <strong>C.Address: </strong><span t-out="invoiceDetail.address"></span><br/>
+                    <strong>Table: </strong><span t-out="props.data.headerData.table"></span><br/>
+                </t>
+                <t t-else="">
+                    <div class="text-center">
+                        <strong>Estimate Bill</strong>
+                    </div>
+                    <strong>C.Name: </strong><span t-out="invoiceDetail.customer"></span><br/>
+                    <strong>C.PAN: </strong><span t-out="invoiceDetail.pan"></span><br/>
+                    <strong>C.Address: </strong><span t-out="invoiceDetail.address"></span><br/>
+                    <strong>Table: </strong><span t-out="props.data.headerData.table"></span><br/>
+                    
+                </t>
+                <hr/>
+            </div>             
+        </xpath>
+        <xpath expr="//OrderWidget" position="replace">
+            <t t-set="discount" t-value="'-0 Rs'"/>
+            <table style="border: 0px solid transparent; width:100% !important;" >
+                <thead>
+                    <tr>
+                        <th style="width:4%; text-align:left;">SN</th>
+                        <th style="width:46%; text-align:left;">PARTICULARS</th>
+                        <th style="width:4%; text-align:center;">QTY</th>
+                        <th style="width:23%; text-align:center;">RATE</th>
+                        <th style="width:23%; text-align:center;">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="countsn" t-value="1"/>
+                    <t t-foreach="orderLines" t-as="line" t-key="line.id">
+                        <tr t-if="line.productName != 'Discount'">
+                            <td style="text-align:left;"><t t-out="countsn"/></td>
+                                <td style="text-align:left;"><t t-out="line.productName"/>
+                                </td>
+                            <td style="text-align:center;"><t t-out="line.qty"/></td>
+                            <td style="text-align:right;"><t t-out="line.rate"/></td>
+                            <td style="text-align:right;"><t t-out="line.amount"/> </td>
+                            <t t-set="countsn" t-value="countsn + 1"/>
+                        </tr>
+                        <tr t-else=''>
+                            <t t-set="discount" t-value="line.amount"/>
+                        </tr>
+
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+        <xpath expr="//div[@class='pos-receipt-amount'][1]" position="replace">    
+            <div style="line-height: 1px;">
+                <p>
+                    <span> Sub Total:</span>
+                    <span style="margin-left:54px;" t-out="subTotal" class=""/> Rs
+                </p>
+                <p>
+                    <span> Discount:</span>
+                    <span style="margin-left:57px;" t-esc="discount.replace('-','').replace('₨', '')" class=""/>
+                </p>
+            
+                <p>
+                    Taxable Amt:
+                    <span style="margin-left:31px;" t-esc="taxAbleAmount" class=""/> Rs
+                </p>
+
+                <p>
+                    VAT (13%):
+                    <span style="margin-left:45px;" t-esc="taxVatAmount" class=""/> Rs
+                </p>
+
+                <p>
+                    Total Amt:
+                    <span style="margin-left:48px;" t-esc="props.data.amount_total" class="" 
+                        options="{'precision': 2}" 
+                    /> Rs
+                </p>
+            </div>
+            <div class="mt-2">
+                In Words: <b> <t t-out="amountInWords"/> Rupees Only</b> 
+            </div>
+            <t t-if="!invoiceDetail.invoceNumber">
+                <img class="center" style="width:150px; height:150px;" src="https://i.ibb.co/bF9Dbhs/hobQr.png"/>
+        </t>
+        </xpath>
+
+        <xpath expr="//div[@class='pos-receipt-amount receipt-change mt-2']" position="replace"/>
+        <xpath expr="//t[@t-if='props.data.total_discount']" position="replace"/>
+        <xpath expr="//div[@class='pos-receipt-taxes']" position="replace"/>
+
+        <xpath expr="//div[@class='paymentlines']" position="replace"/>
+        <xpath expr="//div[@class='after-footer']" position="replace"/>
+        <xpath expr="//div[@t-if='props.data.pos_qr_code']" position="replace"/>
+        <xpath expr="//div[@t-if='props.data.ticket_code']" position="replace"/>
+
+        <xpath expr="//t[@t-if='props.data.rounding_applied']" position="replace"/>
+        <!-- <xpath expr="//t[@t-if='props.shippingDate']" position="replace"/> -->
+
+        <xpath expr="//div[@class='pos-receipt']/div[@class='pos-receipt-order-data']" position="replace">
+            <div style="line-height: 1px;">
+                <p>Printed By : <t t-out="props.data.cashier"/></p>
+                <p>Printed Time : <t t-esc="props.data.date" /></p>
+                <p>Ref No : <t t-esc="props.data.name"/></p>
+                <p>Payment Methods : <t t-out="paymentsMethods"/> </p>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@class='pos-receipt']" position="inside">
+            <p style="page-break-before:always;"> </p>
+            <t t-if="invoiceDetail.invoceNumber">
+                <div class="" style="margin-top: 20px;">
+                    <ReceiptHeader data="props.data.headerData" />
+                    <div class="text-center">
+                        <strong>Invoice</strong>
+                    </div>
+                    <strong>Invoice : </strong><span t-out="invoiceDetail.invoceNumber"></span><br/>
+                    <strong>Date: </strong><span t-out="invoiceDetail.invoice_date"></span><br/>
+                    <strong>C.Name: </strong><span t-out="invoiceDetail.customer"></span><br/>
+                    <strong>C.PAN: </strong><span t-out="invoiceDetail.pan"></span><br/>
+                    <strong>C.Address: </strong><span t-out="invoiceDetail.address"></span><br/>
+                    <strong>Table: </strong><span t-out="props.data.headerData.table"></span><br/>
+                    <hr/>
+                    
+
+                    <table style="border: 0px solid transparent; width:100%;">
+                        <t t-set="discount" t-value="'-0 Rs'"/>
+                        <thead>
+                            <tr>
+                                <th style="width:4%; text-align:left;">SN</th>
+                                <th style="width:46%; text-align:left;">PARTICULARS</th>
+                                <th style="width:4%; text-align:center;">QTY</th>
+                                <th style="width:23%; text-align:center;">RATE</th>
+                                <th style="width:23%; text-align:center;">AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="countsn" t-value="1"/>
+                            <t t-foreach="orderLines" t-as="line" t-key="line.id">
+                                <tr t-if="line.productName != 'Discount'">
+                                    <td style="text-align:left;"><t t-out="countsn"/></td>
+                                    <td style="text-align:left;"><t t-out="line.productName"/></td>
+                                    <td style="text-align:center;"><t t-out="line.qty"/></td>
+                                    <td style="text-align:right;"><t t-out="line.rate"/></td>
+                                    <td style="text-align:right;"><t t-out="line.amount"/> </td>
+                                    <t t-set="countsn" t-value="countsn + 1"/>
+                                </tr>
+                                <tr t-else=''>
+                                    <t t-set="discount" t-value="line.amount"/>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    
+
+                    <div style="display:none;">
+                        <OrderWidget lines="props.data.orderlines" t-slot-scope="scope">
+                            <t t-set="line" t-value="scope.line"/>
+                            <Orderline line="omit(scope.line, 'customerNote')" class="{ 'pe-none': true }">
+                                <li t-if="line.customerNote" class="customer-note w-100 p-2 my-1 rounded text-break">
+                                    <i class="fa fa-sticky-note me-1" role="img" aria-label="Customer Note" title="Customer Note"/>
+                                    <t t-esc="line.customerNote" />
+                                </li>
+                                <ul t-if="line.pack_lot_lines">
+                                    <li t-foreach="line.pack_lot_lines" t-as="lot" t-key="lot.cid">
+                                        <t t-if="lot.order_line.product.tracking == 'lot'">
+                                            Lot Number <t t-esc="lot.lot_name"/>
+                                        </t>
+                                        <t t-else="">
+                                            SN <t t-esc="lot.lot_name"/>
+                                        </t>
+                                    </li>
+                                </ul>
+                            </Orderline>
+                        </OrderWidget>
+                    </div>
+                    <div class="pos-receipt-right-align">_________</div>
+                    <br/>
+                    <div style="line-height: 1px;">
+                        <p>
+                            <span> Sub Total:</span>
+                            <span style="margin-left:54px;" t-out="subTotal" class=""/> Rs
+                        </p>
+                        <p>
+                            <span> Discount:</span>
+                            <span style="margin-left:57px;" t-esc="discount.replace('-','').replace('₨', '')" class=""/>
+                        </p>
+                    
+                        <p>
+                            Taxable Amt:
+                            <span style="margin-left:31px;" t-esc="taxAbleAmount" class=""/> Rs
+                        </p>
+
+                        <p>
+                            VAT (13%):
+                            <span style="margin-left:45px;" t-esc="taxVatAmount" class=""/> Rs
+                        </p>
+
+                        <p>
+                            Total Amt:
+                            <span style="margin-left:48px;" t-esc="props.data.amount_total" 
+                                options="{'precision': 2}" 
+                            /> Rs
+                        </p>
+                    </div>
+                    
+                    <div class="mt-2">
+                        In Words: <b> <t t-out="amountInWords"/> Rupees Only</b> 
+                    </div>
+                    <div class="before-footer" />
+                   
+
+                    <div t-if="props.data.footer"  class="pos-receipt-center-align" style="white-space:pre-line">
+                    <br/>
+                    <t t-esc="props.data.footer" />
+
+                    </div>
+                
+                    <div style="line-height: 1px;" class="mt-2">
+                        <p>Printed By : <t t-out="props.data.cashier"/></p>
+                        <p>Printed Time : <t t-esc="props.data.date" /></p>
+                        <p>Ref No : <t t-esc="props.data.name" /></p>
+                        <p>Payment Methods : <t t-out="paymentsMethods"/> </p>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+            </t>
+        </xpath>        
+    </t>
+</templates>
